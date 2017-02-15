@@ -1,0 +1,24 @@
+<project name="Spring 17 Ant Error Reproduction" default="test" basedir="." xmlns:sf="antlib:com.salesforce">
+
+    <property file="build.properties"/>
+    <property environment="env"/>
+
+    <taskdef resource="com/salesforce/antlib.xml" uri="antlib:com.salesforce">
+        <classpath>
+            <pathelement location="${basedir}/lib/ant-salesforce.jar" />
+        </classpath>
+    </taskdef>
+
+    <target name="deploy-with-tests">
+      <sf:deploy username="${sf.username}" password="${sf.password}" serverurl="${sf.server}" maxPoll="2000" pollWaitMillis="5000" deployRoot="src" rollbackOnError="true" testLevel="RunLocalTests" />
+    </target>
+
+    <target name="deploy-no-tests">
+      <sf:deploy username="${sf.username}" password="${sf.password}" serverurl="${sf.server}" maxPoll="2000" pollWaitMillis="5000" deployRoot="src" rollbackOnError="true" testLevel="NoTestRun" />
+    </target>
+
+    <target name="validate">
+      <sf:deploy username="${sf.username}" password="${sf.password}" serverurl="${sf.server}" maxPoll="2000" pollWaitMillis="5000" deployRoot="src" rollbackOnError="true" testLevel="RunLocalTests" checkOnly="true" />
+    </target>
+
+</project>
